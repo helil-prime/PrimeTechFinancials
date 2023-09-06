@@ -66,5 +66,12 @@ public class ItemsPage {
     @FindBy (xpath = "//span[text()='No Results Found']")
     public WebElement items_Input_noResultFound_text;
     
+    @FindBy (xpath = "//h3[text()='Edit Item']")
+    public WebElement items_page_edit_item_headerText;
+    
+    @FindBy (xpath = "//button[text()=' Update Item']")
+    public WebElement items_page_update_item_btn;
+    
+    
     
 }
