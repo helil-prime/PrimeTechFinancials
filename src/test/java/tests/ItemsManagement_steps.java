@@ -60,8 +60,8 @@ public class ItemsManagement_steps {
 	
 	@When("I provide item information name {string}, price {string}, unit {string}, and description {string}")
 	public void i_provide_item_information_name_price_unit_and_description(String name, String price, String unit, String description) {
-	   itemName = name;
-		item_page.items_input_page_name_box.sendKeys(itemName);
+	   itemName = name + utils.randomNumber();
+	   item_page.items_input_page_name_box.sendKeys(itemName);
 	   item_page.items_input_page_price_box.sendKeys(price);
 	   item_page.items_input_page_unit_dropdown.click();
 	   utils.waitForElementToBeVisible(item_page.items_input_page_unit_pc_option);
@@ -100,5 +100,46 @@ public class ItemsManagement_steps {
 		Assert.assertTrue(item_page.items_Input_noResultFound_text.isDisplayed());
 		Driver.quitDriver();
 	}
+	
+	// edit items test case - starts 
+	@When("I click on Edit button")
+	public void i_click_on_edit_button() {
+	   utils.waitUntilElementVisibleWithLocator(By.xpath("//a[contains(text(), '" + itemName +"')]"));
+	   Driver.getDriver().findElement(By.xpath("//a[contains(text(), '" + itemName +"')]")).click();
+	}
+	@Then("I should be on Edit items page")
+	public void i_should_be_on_edit_items_page() {
+	    utils.waitForElementToBeVisible(item_page.items_page_update_item_btn);
+	    Assert.assertTrue(item_page.items_page_update_item_btn.isDisplayed());
+	}
+	@When("I update the items price to {string}")
+	public void i_update_the_items_price_to(String newPrice) {
+	    item_page.items_input_page_price_box.clear();
+	    item_page.items_input_page_price_box.sendKeys(newPrice);
+	}
+	@When("I click on update item button")
+	public void i_click_on_update_item_button() {
+	    item_page.items_page_update_item_btn.click();
+	}
+	@Then("Items price should be updated to {string}")
+	public void items_price_should_be_updated_to(String newPrice) {
+		// filter the item and verify it's in the items table
+		utils.waitForElementToBeVisible(item_page.items_page_item_headerText);
+		Assert.assertTrue(item_page.items_page_item_headerText.isDisplayed());
+		item_page.items_page_filter_btn.click();
+		utils.waitForElementToBeVisible(item_page.items_page_filter_name_box);
+		item_page.items_page_filter_name_box.sendKeys(itemName);
+		utils.waitUntilElementVisibleWithLocator(By.xpath("//a[contains(text(), '" + itemName +"')]"));
+		Assert.assertTrue(
+				Driver.getDriver().findElement(By.xpath("//a[contains(text(), '" + itemName +"')]")).isDisplayed());
+		
+		// get the price of the item and validate
+		
+		String trimmedPrice = newPrice.substring(0, 2);
+		System.out.println(trimmedPrice);
+		Assert.assertTrue(Driver.getDriver().findElement(By.xpath("//span[contains(text(), '"+ trimmedPrice + "')]")).isDisplayed());
+	}
+	
+	// edit items test case - ends
 
 }

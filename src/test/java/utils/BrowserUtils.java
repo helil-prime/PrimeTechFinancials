@@ -2,6 +2,7 @@ package utils;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -35,6 +36,13 @@ public class BrowserUtils {
 		act.sendKeys(element, input).build().perform();
 	}
 	
+	
+	// this method generate 3 digit random number
+		public int randomNumber() {
+			Random rand = new Random();
+			int randomNum = rand.nextInt((999 - 100) + 1) + 100;
+			return randomNum;
+		}
 	
 
 }
