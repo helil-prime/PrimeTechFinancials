@@ -31,6 +31,17 @@ public class BrowserUtils {
 		wait.until(ExpectedConditions.visibilityOfAllElements(element));
 	}
 	
+	//This method tells the driver to wait until an element is clickable
+		public void waitUntilElementClickable(WebElement element) {
+			wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(7));
+			wait.until(ExpectedConditions.elementToBeClickable(element));
+		}
+		
+		public void waitUntilElementClickableWithLocator(By locator) {
+			wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(7));
+			wait.until(ExpectedConditions.elementToBeClickable(locator));
+		}
+	
 	public void sendkeysWithActionsClass(WebElement element, String input) {
 		act = new Actions(Driver.getDriver());
 		act.sendKeys(element, input).build().perform();
