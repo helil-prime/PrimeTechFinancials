@@ -10,7 +10,7 @@ import io.cucumber.junit.CucumberOptions;
 		glue="tests",  // this to specify the location of step definitions so that cucumber can map with the scenario steps
 		dryRun=true,    // DryRun when it's true, it scans the whole future files and finds unimplemented scenario steps if any
 		               // when it's false, it just turns itself off and doesn't do anything.
-		tags="@newCustomerInvalidNoInfo"
+		tags="@newCustomers"
 		)
 public class DryRunner {
 

@@ -47,3 +47,18 @@ Feature: Customer management
     And I click on the New Customer button
     And click save
     Then I should see the error message “Field is required” below the Display Name field
+    
+    @newCustomers
+    Scenario Outline: As a user, when I create a new customer I should see them in the customers table
+    And I click on the New Customer button
+    When I enter a valid "<Display Name>", "<Email>", "<State>", "<City>", and "<Zipcode>"
+    And click save
+    Then I should see the new customer in the data table
+    And I delete the customer
+    
+    
+    Examples:
+    | Display Name|        Email       | State | City            |Zipcode|
+    | Student1    | student1@gmail.com | VA    | Fairfax         | 12345 |
+    | Student2    | student2@gmail.com | MD    | Rockville       | 00000 |
+    | Student3    | student3@gmail.com | CA    | Orange County   | 54321 |

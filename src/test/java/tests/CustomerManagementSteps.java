@@ -1,6 +1,8 @@
 package tests;
 
 import org.junit.Assert;
+import org.openqa.selenium.By;
+
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.CustomersPage;
@@ -12,6 +14,8 @@ public class CustomerManagementSteps {
 	BrowserUtils utils = new BrowserUtils();
 	DashboardPage dashPage = new DashboardPage();
 	CustomersPage customerPage = new CustomersPage();
+	
+	static String name;
 	
 	// @newCustomerBTNTest scenario start - 
 	@When("I navigate to the customers tab")
@@ -166,6 +170,7 @@ public class CustomerManagementSteps {
 		customerPage.customer_page_customerTable_3dotMoreLink_Delete.click();
 		utils.waitForElementToBeVisible(customerPage.customer_page_customerTable_3dotMoreLink_Delete_OK_BTN);
 		customerPage.customer_page_customerTable_3dotMoreLink_Delete_OK_BTN.click();
+		Driver.quitDriver();
 	}
 	// @newCustomerCreatedMessage end -
 	
@@ -176,4 +181,33 @@ public class CustomerManagementSteps {
 		Assert.assertTrue(customerPage.customer_page_newCustomer_FieldIsRequired_Error_Message.isDisplayed());
 	}
 	// @newCustomerInvalidNoInfo end -
+	
+	// @newCustomers start - 
+	@When("I enter a valid {string}, {string}, {string}, {string}, and {string}")
+	public void i_enter_a_valid_and(String displayName, String email, String state, String city, String zipcode) throws InterruptedException {
+		name = displayName;
+		
+		utils.waitForElementToBeVisible(customerPage.customer_page_BasicInfo_DisplayName_Field);
+		customerPage.customer_page_BasicInfo_DisplayName_Field.sendKeys(name);
+		customerPage.customer_page_BasicInfo_Email_Field.sendKeys(email);
+		customerPage.customer_page_newCustomer_Billing_NameField.sendKeys(name);
+		customerPage.customer_page_newCustomer_Billing_CityField.sendKeys(city);
+		customerPage.customer_page_newCustomer_Billing_ZipcodeField.sendKeys(zipcode);
+		utils.clickWithActionsClass(customerPage.customer_page_newCustomer_Billing_CountryDropDown);
+		utils.waitForElementToBeVisible(customerPage.customer_page_newCustomer_Billing_CountryDropDown_UnitedStates);
+		utils.clickWithActionsClass(customerPage.customer_page_newCustomer_Billing_CountryDropDown_UnitedStates);
+//		customerPage.customer_page_newCustomer_CopyFromBillingBTN.click();
+		utils.clickWithActionsClass(customerPage.customer_page_newCustomer_CopyFromBillingBTN);
+//		utils.waitForElementToBeInputed(customerPage.customer_page_newCustomer_Shipping_NameField, name);
+//		Thread.sleep(5000);
+		utils.moveToWithActionsClass(customerPage.customer_page_NewCustomerSubmit_BTN);
+		utils.waitUntilElementClickable(customerPage.customer_page_NewCustomerSubmit_BTN);
+		customerPage.customer_page_NewCustomerSubmit_BTN.click();
+	}
+	@Then("I should see the new customer in the data table")
+	public void i_should_see_the_new_customer_in_the_data_table() {
+		utils.waitForElementToBeVisible(customerPage.customer_page_Sales_and_Expenses_header);
+		Assert.assertTrue(Driver.getDriver().findElement(By.xpath("//p[contains(text(), '"+name+"')]")).isDisplayed());
+	}
+	// @newCustomers end - 
 }

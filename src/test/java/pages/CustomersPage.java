@@ -93,4 +93,33 @@ public WebElement customer_page_customerTable_3dotMoreLink_Delete_OK_BTN;
 @FindBy (xpath = "//span[text()='Field is required']")
 public WebElement customer_page_newCustomer_FieldIsRequired_Error_Message;
 
+@FindBy (xpath = "(//div[text()='Select Country'])[1]")
+public WebElement customer_page_newCustomer_Billing_CountryField;
+
+@FindBy (xpath = "(//input[@name='address_name'])[1]")
+public WebElement customer_page_newCustomer_Billing_NameField;
+
+@FindBy (xpath = "//input[@name='billing.state']")
+public WebElement customer_page_newCustomer_Billing_StateField;
+
+@FindBy (xpath = "//input[@name=\'billing.city\']")
+public WebElement customer_page_newCustomer_Billing_CityField;
+
+@FindBy (xpath = "(//input[@name=\"zip\"])[1]")
+public WebElement customer_page_newCustomer_Billing_ZipcodeField;
+
+@FindBy (xpath = "//button[text()=' Copy from Billing']")
+public WebElement customer_page_newCustomer_CopyFromBillingBTN;
+
+@FindBy (xpath = "//input[@name='address_name']")
+public WebElement customer_page_newCustomer_Shipping_NameField;
+
+@FindBy (xpath = "(//input[@type='text']//following-sibling::div[text()='Select Country'])[1]")
+public WebElement customer_page_newCustomer_Billing_CountryDropDown;
+
+@FindBy (xpath = "(//span[text()='United States'])[1]")
+public WebElement customer_page_newCustomer_Billing_CountryDropDown_UnitedStates;
+
+@FindBy (xpath = "//h6[text()=' Sales & Expenses']")
+public WebElement customer_page_Sales_and_Expenses_header;
 }
