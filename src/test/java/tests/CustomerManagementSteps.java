@@ -1,6 +1,8 @@
 package tests;
 
 import org.junit.Assert;
+import org.openqa.selenium.By;
+
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.CustomersPage;
@@ -12,6 +14,8 @@ public class CustomerManagementSteps {
 	BrowserUtils utils = new BrowserUtils();
 	DashboardPage dashPage = new DashboardPage();
 	CustomersPage customerPage = new CustomersPage();
+	
+	static String name;
 	
 	// @newCustomerBTNTest scenario start - 
 	@When("I navigate to the customers tab")
@@ -87,4 +91,123 @@ public class CustomerManagementSteps {
 	}
 	
 	// @newCustomerTableList end -
+	
+	// @customerTableColumn start -
+	@Then("the following columns: NAME, PHONE , AMOUNT DUE, ADDED ON")
+	public void the_following_columns_name_phone_amount_due_added_on() {
+		if(customerPage.customer_page_customerTable_Name_Column.isDisplayed()) {
+			Assert.assertTrue(true);
+			System.out.println("Name Column is present");
+		} else {
+			Assert.assertTrue(false);
+			System.out.println("Name Column is NOT present");
+		}
+		if(customerPage.customer_page_customerTable_Phone_Column.isDisplayed()) {
+			Assert.assertTrue(true);
+			System.out.println("Phone Column is present");
+		} else {
+			Assert.assertTrue(false);
+			System.out.println("Phone Column is NOT present");
+		}
+		if(customerPage.customer_page_customerTable_AmountDue_Column.isDisplayed()) {
+			Assert.assertTrue(true);
+			System.out.println("Amount Due Column is present");
+		} else {
+			Assert.assertTrue(false);
+			System.out.println("Amount Due Column is NOT present");
+		}
+		if(customerPage.customer_page_customerTable_AddedOn_Column.isDisplayed()) {
+			Assert.assertTrue(true);
+			System.out.println("Added On Column is present");
+		} else {
+			Assert.assertTrue(false);
+			System.out.println("Added On Column is NOT present");
+		}
+	}
+	// @customerTableColumn end -
+	
+	// @customerTableMoreOptions start -
+	@Then("a more link option for each customer with the options: Delete, Edit, View")
+	public void a_more_link_option_for_each_customer_with_the_options_delete_edit_view() {
+		utils.waitForElementToBeVisible(customerPage.customer_page_customerTable_3dotMoreLink);
+		if(customerPage.customer_page_customerTable_3dotMoreLink.isDisplayed()) {
+			Assert.assertTrue(true);
+			System.out.println("The customer 3 dot options link is displayed");
+		} else {
+			Assert.assertTrue(false);
+			System.out.println("The customer 3 dot options link is displayed");
+		}
+		customerPage.customer_page_customerTable_3dotMoreLink.click();
+		utils.waitForElementToBeVisible(customerPage.customer_page_customerTable_3dotMoreLink_View);
+		Assert.assertTrue(customerPage.customer_page_customerTable_3dotMoreLink_View.isDisplayed());
+		Assert.assertTrue(customerPage.customer_page_customerTable_3dotMoreLink_Edit.isDisplayed());
+		Assert.assertTrue(customerPage.customer_page_customerTable_3dotMoreLink_Delete.isDisplayed());
+		
+	}
+	// @customerTableMoreOptions end -
+	
+	// @newCustomerCreatedMessage start -
+	@Then("I enter a display name")
+	public void i_enter_a_display_name() {
+		customerPage.customer_page_BasicInfo_DisplayName_Field.sendKeys("Student");
+	}
+	@Then("click save")
+	public void click_save() {
+		customerPage.customer_page_NewCustomerSubmit_BTN.click();
+	}
+	@Then("I should see the pop up message {string}")
+	public void i_should_see_the_pop_up_message(String message) {
+		utils.waitForElementToBeVisible(customerPage.customer_page_newCustomer_Success_Message);
+		Assert.assertEquals(customerPage.customer_page_newCustomer_Success_Message.getText(), message);
+	}
+	@Then("I delete the customer")
+	public void i_delete_the_customer() {
+		utils.waitForElementToBeVisible(dashPage.customers_tab);
+		dashPage.customers_tab.click();
+		utils.waitForElementToBeVisible(customerPage.customer_page_customerTable_3dotMoreLink);
+		customerPage.customer_page_customerTable_3dotMoreLink.click();
+		utils.waitForElementToBeVisible(customerPage.customer_page_customerTable_3dotMoreLink_Delete);
+		customerPage.customer_page_customerTable_3dotMoreLink_Delete.click();
+		utils.waitForElementToBeVisible(customerPage.customer_page_customerTable_3dotMoreLink_Delete_OK_BTN);
+		customerPage.customer_page_customerTable_3dotMoreLink_Delete_OK_BTN.click();
+		Driver.quitDriver();
+	}
+	// @newCustomerCreatedMessage end -
+	
+	// @newCustomerInvalidNoInfo start -
+	@Then("I should see the error message “Field is required” below the Display Name field")
+	public void i_should_see_the_error_message_field_is_required_below_the_display_name_field() {
+		utils.waitForElementToBeVisible(customerPage.customer_page_newCustomer_FieldIsRequired_Error_Message);
+		Assert.assertTrue(customerPage.customer_page_newCustomer_FieldIsRequired_Error_Message.isDisplayed());
+	}
+	// @newCustomerInvalidNoInfo end -
+	
+	// @newCustomers start - 
+	@When("I enter a valid {string}, {string}, {string}, {string}, and {string}")
+	public void i_enter_a_valid_and(String displayName, String email, String state, String city, String zipcode) throws InterruptedException {
+		name = displayName;
+		
+		utils.waitForElementToBeVisible(customerPage.customer_page_BasicInfo_DisplayName_Field);
+		customerPage.customer_page_BasicInfo_DisplayName_Field.sendKeys(name);
+		customerPage.customer_page_BasicInfo_Email_Field.sendKeys(email);
+		customerPage.customer_page_newCustomer_Billing_NameField.sendKeys(name);
+		customerPage.customer_page_newCustomer_Billing_CityField.sendKeys(city);
+		customerPage.customer_page_newCustomer_Billing_ZipcodeField.sendKeys(zipcode);
+		utils.clickWithActionsClass(customerPage.customer_page_newCustomer_Billing_CountryDropDown);
+		utils.waitForElementToBeVisible(customerPage.customer_page_newCustomer_Billing_CountryDropDown_UnitedStates);
+		utils.clickWithActionsClass(customerPage.customer_page_newCustomer_Billing_CountryDropDown_UnitedStates);
+//		customerPage.customer_page_newCustomer_CopyFromBillingBTN.click();
+		utils.clickWithActionsClass(customerPage.customer_page_newCustomer_CopyFromBillingBTN);
+//		utils.waitForElementToBeInputed(customerPage.customer_page_newCustomer_Shipping_NameField, name);
+//		Thread.sleep(5000);
+		utils.moveToWithActionsClass(customerPage.customer_page_NewCustomerSubmit_BTN);
+		utils.waitUntilElementClickable(customerPage.customer_page_NewCustomerSubmit_BTN);
+		customerPage.customer_page_NewCustomerSubmit_BTN.click();
+	}
+	@Then("I should see the new customer in the data table")
+	public void i_should_see_the_new_customer_in_the_data_table() {
+		utils.waitForElementToBeVisible(customerPage.customer_page_Sales_and_Expenses_header);
+		Assert.assertTrue(Driver.getDriver().findElement(By.xpath("//p[contains(text(), '"+name+"')]")).isDisplayed());
+	}
+	// @newCustomers end - 
 }

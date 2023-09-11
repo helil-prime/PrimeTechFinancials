@@ -2,12 +2,12 @@ Feature: Items Management
 
   Background: 
     Given As an entity user, I am logged in
+    And I navigate to Items tab
 
   # In background, we put the first one or few given steps that are used by each scenarios so that we don't have to
   # redeclare that given steps in each scenarios.
   @createItem
   Scenario: As a user, I am able to create an item or a service
-    And I navigate to Items tab
     When I click on the Add Item button
     And I should be on item input page
     When I provide item information name "", price "1800", unit "pc", and description "very nice coffee mug"
@@ -17,7 +17,6 @@ Feature: Items Management
 
   @editItem
   Scenario: As a user, I am able to update an item or a service
-    And I navigate to Items tab
     When I click on the Add Item button
     And I should be on item input page
     When I provide item information name "Coffee mug", price "1800", unit "pc", and description "very nice coffee mug"
@@ -32,7 +31,6 @@ Feature: Items Management
 
   @ScenarioOutlineDemo
   Scenario Outline: As a user, I am able to create items with data table
-    And I navigate to Items tab
     When I click on the Add Item button
     And I should be on item input page
     When I provide item information name "<itemName>", price "<itemPrice>", unit "<unitType>", and description "<itemDes>"
