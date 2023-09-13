@@ -1,5 +1,7 @@
 package pages;
 
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -122,4 +124,7 @@ public WebElement customer_page_newCustomer_Billing_CountryDropDown_UnitedStates
 
 @FindBy (xpath = "//h6[text()=' Sales & Expenses']")
 public WebElement customer_page_Sales_and_Expenses_header;
+
+@FindBy (xpath = "//span[text()='Name must have at least 3 letters.'] | //span[text()='Field is required'] | //span[text()='Incorrect Email.']")
+public List<WebElement> customer_page_NewCustomer_nameEmail_ErrorMessages;
 }

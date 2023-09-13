@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -210,4 +211,28 @@ public class CustomerManagementSteps {
 		Assert.assertTrue(Driver.getDriver().findElement(By.xpath("//p[contains(text(), '"+name+"')]")).isDisplayed());
 	}
 	// @newCustomers end - 
+	
+	
+	// @newCustomerFormErrorMessages start -
+	@When("I enter invalid informatin: display name {string} and email {string}")
+	public void i_enter_invalid_informatin_display_name_and_email(String name, String email) throws InterruptedException {
+		utils.waitForElementToBeVisible(customerPage.customer_page_NewCustomer_TextHeader);
+		customerPage.customer_page_BasicInfo_DisplayName_Field.sendKeys(name);
+		customerPage.customer_page_BasicInfo_Email_Field.sendKeys(email);
+		customerPage.customer_page_NewCustomerSubmit_BTN.click();
+		Thread.sleep(500);
+	}
+	@Then("I should see the appropriate error message")
+	public void i_should_see_the_appropriate_error_message() {
+		boolean isErrorVissible = false;
+		for (WebElement errorMessage : customerPage.customer_page_NewCustomer_nameEmail_ErrorMessages) {
+			if(errorMessage.isDisplayed()) {
+				isErrorVissible = true;
+				break;
+			}
+		}
+		Assert.assertTrue(isErrorVissible);
+		Driver.quitDriver();
+	}
+	// @newCustomerFormErrorMessages end -
 }

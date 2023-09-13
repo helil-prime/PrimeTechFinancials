@@ -62,3 +62,16 @@ Feature: Customer management
     | Student1    | student1@gmail.com | VA    | Fairfax         | 12345 |
     | Student2    | student2@gmail.com | MD    | Rockville       | 00000 |
     | Student3    | student3@gmail.com | CA    | Orange County   | 54321 |
+    
+    @newCustomerFormErrorMessages
+    Scenario Outline: As a user when I create a new customer, I should provide a valid display name and email
+    And I click on the New Customer button
+    When I enter invalid informatin: display name "<name>" and email "<email>"
+    Then I should see the appropriate error message
+    
+    Examples:
+    | name    | email             |
+    | ab      | student@gmail.com |
+    |         | student@gmail.com |
+    | student | email             |
+    
